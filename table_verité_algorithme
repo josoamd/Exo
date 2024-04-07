@@ -1,8 +1,7 @@
-// exo 1, Algorithme en fonctionne
+// exo 1, Algorithme en forme canonique
 
-1. Définir une fonction pour évaluer la fonction logique avec les valeurs des variables données.
-2. Générer toutes les combinaisons possibles de valeurs binaires pour les variables.
-3. Pour chaque combinaison, évaluer la fonction logique et stocker le résultat dans une liste.
-4. Afficher la table de vérité.
-5. Utiliser la méthode de Quine-McCluskey pour obtenir les formes canoniques.
-6. Afficher les formes canoniques.
+1. Demandez à l'utilisateur d'entrer l'expression logique
+2. Demandez les noms des variables impliquées dans l'expression
+3. Génère toutes les combinaisons possibles de valeurs de vérité pour ces variables
+4. Évalue l'expression logique pour chaque combinaison et affiche les résultats
+5.  Afficher les formes canoniques.
