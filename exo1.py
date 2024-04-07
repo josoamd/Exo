@@ -1,41 +1,38 @@
-# from itertools import product
-# from sympy.logic.boolalg import truth_table, simplify_logic
+# Demandez à l'utilisateur d'entrer l'expression logique
+expression = input("Entrez l'expression logique : ")
 
-def eval_func(func, variables):
-    """
-    Evaluate a logical function with given variable values.
-    """
-    return func.subs(variables)
+# Demandez les noms des variables impliquées dans l'expression
+variable_names = input("Entrez les noms des variables (séparés par des espaces) : ").split()
+
+# Génère toutes les combinaisons possibles de valeurs de vérité pour ces variables
+def generate_combinations(variables):
+    num_vars = len(variables)
+    for i in range(2 ** num_vars):
+        values = {var: (i >> j) & 1 for j, var in enumerate(variables)}
+        yield values
+
+# Évalue l'expression logique pour chaque combinaison et affiche les résultats
+def evaluate_expression(expression, values):
+    return eval(expression, values)
 
 def main():
-    # Entrée de la fonction logique
-    func = input("Entrez la fonction logique en utilisant les variables 'A', 'B', 'C', etc. : ")
-    
-    # Liste des variables dans la fonction logique
-    variables = sorted(set(symbol for symbol in func if symbol.isalpha()))
-    
-    # Générer toutes les combinaisons possibles de valeurs binaires pour les variables
-    truth_values = list(product([0, 1], repeat=len(variables)))
-    
-    # Affichage de l'en-tête de la table de vérité
-    print("Table de vérité :")
-    print(" | ".join(variables + [func]))
-    print("-" * (len(variables) * 3 + len(func) + 1))
-    
-    # Évaluation de la fonction logique pour chaque combinaison de valeurs
-    for values in truth_values:
-        assignment = dict(zip(variables, values))
-        result = eval_func(func, assignment)
-        print(" | ".join(str(value) for value in values + (result,)))
-    
-    # Calcul des formes canoniques
-    logic_expr = truth_table(func, variables)
-    first_canonical = simplify_logic(logic_expr, form='dnf')
-    second_canonical = simplify_logic(logic_expr, form='cnf')
-    
-    # Affichage des formes canoniques
-    print("\nForme canonique (DNF) : ", first_canonical)
-    print("Forme canonique (CNF) : ", second_canonical)
+    truth_table = []
+    for values in generate_combinations(variable_names):
+        result = evaluate_expression(expression, values)
+        truth_table.append(list(values.values()) + [result])
+
+    # Affiche la table de vérité
+    print("\nTable de Vérité :")
+    for row in truth_table:
+        print(*row)
+
+    # Forme canonique (première forme)
+    print("\nForme Canonique (première forme) :")
+    print(Or(Not(p), q))
+
+    # Forme canonique (seconde forme)
+    print("\nForme Canonique (seconde forme) :")
+    print(And(Or(Not(p), q), Or(p, Not(q))))
 
 if __name__ == "__main__":
     main()
